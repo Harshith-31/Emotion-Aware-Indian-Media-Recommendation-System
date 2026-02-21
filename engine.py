@@ -1,8 +1,6 @@
 import pandas as pd
 
-# =============================
-# LOAD DATA (READ-ONLY)
-# =============================
+
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -13,10 +11,6 @@ songs_path = os.path.join(BASE_DIR, "data", "indian_songs.csv")
 movies_df = pd.read_csv(movies_path)
 songs_df = pd.read_csv(songs_path)
 
-
-# =============================
-# NORMALIZE SONG GENRES
-# =============================
 def normalize_song_genre(genre):
     g = str(genre).lower()
 
@@ -35,9 +29,6 @@ def normalize_song_genre(genre):
 
 songs_df["norm_genre"] = songs_df["genre"].apply(normalize_song_genre)
 
-# =============================
-# EMOTION → GENRE MAPPING
-# =============================
 movie_emotion_genres = {
     "sadness": ["Romance", "Drama"],
     "joy": ["Comedy", "Family"],
@@ -56,18 +47,14 @@ song_emotion_genres = {
     "surprise": ["pop"]
 }
 
-# =============================
-# SAFE HYBRID WEIGHT FUNCTION
-# =============================
+
 def compute_hybrid_weight(emotion, current_scores, user_profile):
     current_weight = current_scores.get(emotion, 0)
     history_weight = user_profile.get(emotion, 0)
 
     return (0.7 * current_weight) + (0.3 * history_weight)
 
-# =============================
-# VALIDATION FUNCTION
-# =============================
+
 def validate_emotion_scores(emotion_scores):
     if not isinstance(emotion_scores, dict):
         raise ValueError(
@@ -77,9 +64,6 @@ def validate_emotion_scores(emotion_scores):
         )
     return emotion_scores
 
-# =============================
-# MOVIE RECOMMENDATION
-# =============================
 def weighted_movie_recommendation(
     emotion_scores,
     user_profile=None,
@@ -125,9 +109,7 @@ def weighted_movie_recommendation(
 
     return ranked.head(top_n)
 
-# =============================
-# SONG RECOMMENDATION
-# =============================
+
 def weighted_song_recommendation(
     emotion_scores,
     user_profile=None,
@@ -166,7 +148,6 @@ def weighted_song_recommendation(
         ascending=False
     )
 
-    # Safe fallback
     if ranked.empty:
         return temp_df.head(top_n)
 
