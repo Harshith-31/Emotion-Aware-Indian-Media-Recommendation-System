@@ -5,8 +5,8 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-movies_path = os.path.join(BASE_DIR, "data", "indian_movies.csv")
-songs_path = os.path.join(BASE_DIR, "data", "indian_songs.csv")
+movies_path = os.path.join(BASE_DIR, "Data", "indian_movies.csv")
+songs_path = os.path.join(BASE_DIR, "Data", "indian_songs.csv")
 
 movies_df = pd.read_csv(movies_path)
 songs_df = pd.read_csv(songs_path)
