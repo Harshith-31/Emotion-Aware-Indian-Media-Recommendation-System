@@ -3,8 +3,16 @@ import pandas as pd
 # =============================
 # LOAD DATA (READ-ONLY)
 # =============================
-movies_df = pd.read_csv("data/indian_movies.csv")
-songs_df = pd.read_csv("data/indian_songs.csv")
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+movies_path = os.path.join(BASE_DIR, "data", "indian_movies.csv")
+songs_path = os.path.join(BASE_DIR, "data", "indian_songs.csv")
+
+movies_df = pd.read_csv(movies_path)
+songs_df = pd.read_csv(songs_path)
+
 
 # =============================
 # NORMALIZE SONG GENRES
