@@ -4,18 +4,14 @@ import pandas as pd
 from bert_inference import predict_top_k
 from engine import weighted_movie_recommendation, weighted_song_recommendation
 
-# =============================
-# PAGE CONFIG
-# =============================
+
 st.set_page_config(
     page_title="Emotion AI Enterprise",
     page_icon="📊",
     layout="wide"
 )
 
-# =============================
-# SESSION STATE INIT
-# =============================
+
 if "emotion_history" not in st.session_state:
     st.session_state.emotion_history = []
 
@@ -24,15 +20,11 @@ if "user_profile" not in st.session_state:
         "emotion_weights": {}
     }
 
-# =============================
-# HEADER
-# =============================
+
 st.title("📊 Emotion-Aware Media Intelligence")
 st.subheader("Personalized AI Recommendation System")
 
-# =============================
-# SIDEBAR
-# =============================
+
 st.sidebar.title("⚙️ AI Dashboard Controls")
 
 user_name = st.sidebar.text_input("User Name")
@@ -43,17 +35,13 @@ if st.sidebar.button("Clear Emotion History"):
 
 st.sidebar.metric("Sessions Tracked", len(st.session_state.emotion_history))
 
-# =============================
-# INPUT
-# =============================
+
 user_text = st.text_area("🧠 Describe how you're feeling")
 
 if st.button("🚀 Analyze Emotion") and user_text.strip():
 
-    # 🔥 Step 1: Predict Emotion
     emotion_scores = predict_top_k(user_text)
 
-    # 🔥 Step 2: Get Hybrid Recommendations
     movie_recs = weighted_movie_recommendation(
         emotion_scores,
         st.session_state.user_profile["emotion_weights"]
@@ -64,17 +52,13 @@ if st.button("🚀 Analyze Emotion") and user_text.strip():
         st.session_state.user_profile["emotion_weights"]
     )
 
-    # 🔥 Step 3: Save Session History
     st.session_state.emotion_history.append(emotion_scores)
 
-    # 🔥 Step 4: Update User Profile
     for emotion, weight in emotion_scores.items():
         previous = st.session_state.user_profile["emotion_weights"].get(emotion, 0)
         st.session_state.user_profile["emotion_weights"][emotion] = previous + weight
 
-    # =============================
-    # KPI METRICS
-    # =============================
+
     top_emotion = list(emotion_scores.keys())[0]
     top_score = list(emotion_scores.values())[0]
 
@@ -86,9 +70,7 @@ if st.button("🚀 Analyze Emotion") and user_text.strip():
 
     st.markdown("---")
 
-    # =============================
-    # EMOTION DISTRIBUTION
-    # =============================
+ 
     colA, colB = st.columns(2)
 
     with colA:
@@ -107,9 +89,7 @@ if st.button("🚀 Analyze Emotion") and user_text.strip():
 
         st.altair_chart(chart, use_container_width=True)
 
-    # =============================
-    # EMOTION TREND
-    # =============================
+ 
     with colB:
         st.subheader("📊 Emotion Trend")
 
@@ -135,9 +115,7 @@ if st.button("🚀 Analyze Emotion") and user_text.strip():
 
     st.markdown("---")
 
-    # =============================
-    # USER PROFILE
-    # =============================
+
     st.subheader("👤 User Emotional Fingerprint")
 
     profile_df = pd.DataFrame(
@@ -155,9 +133,7 @@ if st.button("🚀 Analyze Emotion") and user_text.strip():
 
     st.markdown("---")
 
-    # =============================
-    # RECOMMENDATIONS
-    # =============================
+
     col1, col2 = st.columns(2)
 
     with col1:
@@ -170,9 +146,6 @@ if st.button("🚀 Analyze Emotion") and user_text.strip():
         for _, row in song_recs.iterrows():
             st.write(f"• {row['title']} — {row['artist']}")
 
-    # =============================
-    # EXPLAINABLE AI
-    # =============================
     st.markdown("### 🧠 Why These Recommendations?")
     for emotion, weight in emotion_scores.items():
         st.write(f"• {emotion.upper()} influenced ranking with weight {weight:.2f}")
