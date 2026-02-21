@@ -1,3 +1,5 @@
+## 🌐 Live Demo
+https://emotion-aware-indian-media-recommendation-system-hfnx3iiqimwit.streamlit.app
 🎭 Emotion-Aware Indian Media Recommendation System
 📌 Project Overview
 The Emotion-Aware Indian Media Recommendation System is an enterprise-grade AI application that detects user emotions using a Transformer-based NLP model and generates personalized Indian movie and music recommendations through a hybrid scoring engine.
